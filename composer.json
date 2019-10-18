@@ -1,6 +1,12 @@
 {
   "name": "kain/hyperf-curd",
+  "description": "CURD library for Hyperf framework",
   "require": {},
+  "autoload": {
+    "psr-4": {
+      "hyperf\\curd\\": "src/"
+    }
+  },
   "authors": [
     {
       "name": "kain",
