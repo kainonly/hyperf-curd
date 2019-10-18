@@ -1,0 +1,11 @@
+{
+  "name": "kain/hyperf-curd",
+  "require": {},
+  "authors": [
+    {
+      "name": "kain",
+      "email": "zhangtqx@vip.qq.com"
+    }
+  ],
+  "license": "MIT"
+}
