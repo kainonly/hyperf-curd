@@ -1,6 +1,6 @@
 <?php
 
-namespace hyperf\curd\lifecycle;
+namespace Hyperf\Curd\Lifecycle;
 
 interface GetCustom
 {

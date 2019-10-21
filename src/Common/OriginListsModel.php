@@ -1,6 +1,6 @@
 <?php
 
-namespace hyperf\curd\common;
+namespace Hyperf\Curd\Common;
 
 use Closure;
 use Hyperf\DbConnection\Db;
@@ -8,7 +8,7 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
  * Trait ListsModel
- * @package hyperf\curd\common
+ * @package Hyperf\Curd\Common
  * @property ValidatorFactoryInterface $validation
  * @property string $model
  * @property array $post
