@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace hyperf\curd;
+namespace Hyperf\Curd;
 
 use Closure;
 use Hyperf\Di\Annotation\Inject;

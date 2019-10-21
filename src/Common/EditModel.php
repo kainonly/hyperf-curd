@@ -1,13 +1,13 @@
 <?php
 
-namespace hyperf\curd\common;
+namespace Hyperf\Curd\Common;
 
 use Hyperf\DbConnection\Db;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
  * Trait EditModel
- * @package hyperf\curd\common
+ * @package Hyperf\Curd\Common
  * @property ValidatorFactoryInterface $validation
  * @property string $model
  * @property array $post
