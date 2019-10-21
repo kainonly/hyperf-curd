@@ -1,7 +1,12 @@
 {
   "name": "kain/hyperf-curd",
   "description": "CURD library for Hyperf framework",
-  "require": {},
+  "require": {
+    "ext-swoole": ">=4.4",
+    "hyperf/database": "~1.1.0",
+    "hyperf/framework": "~1.1.0",
+    "hyperf/validation": "^1.1"
+  },
   "autoload": {
     "psr-4": {
       "hyperf\\curd\\": "src/"
