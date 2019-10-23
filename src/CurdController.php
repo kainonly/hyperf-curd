@@ -43,10 +43,11 @@ abstract class CurdController
     protected $model;
 
     /**
-     * Request Body
+     * Request body
      * @var array
      */
     protected $post = [];
+
 
     /**
      * Origin Lists Validate
@@ -352,10 +353,7 @@ abstract class CurdController
         'msg' => 'error:after_fail'
     ];
 
-    public function __construct(
-        RequestInterface $request,
-        ResponseInterface $response
-    )
+    public function __construct(RequestInterface $request)
     {
         $this->post = $request->post();
     }
