@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Common;
 
 use Hyperf\DbConnection\Db;
+use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
@@ -23,6 +24,10 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait EditModel
 {
+    /**
+     * @return array
+     * @PostMapping(path="edit")
+     */
     public function edit()
     {
         $default_validator = $this->validation->make(
