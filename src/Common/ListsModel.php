@@ -5,6 +5,7 @@ namespace Hyperf\Curd\Common;
 
 use Closure;
 use Hyperf\DbConnection\Db;
+use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
@@ -23,6 +24,10 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait ListsModel
 {
+    /**
+     * @return array
+     * @PostMapping(path="lists")
+     */
     public function lists()
     {
         try {
