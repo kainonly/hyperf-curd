@@ -22,10 +22,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait AddModel
 {
-    /**
-     * @return array
-     * @PostMapping(path="add")
-     */
     public function add()
     {
         $validator = $this->validation->make($this->post, array_merge(

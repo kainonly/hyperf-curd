@@ -24,10 +24,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait OriginListsModel
 {
-    /**
-     * @return array
-     * @PostMapping(path="originLists")
-     */
     public function originLists()
     {
         try {

@@ -24,10 +24,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait EditModel
 {
-    /**
-     * @return array
-     * @PostMapping(path="edit")
-     */
     public function edit()
     {
         $default_validator = $this->validation->make(
