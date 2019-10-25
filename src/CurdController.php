@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Hyperf\Curd;
 
 use Closure;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
@@ -13,25 +12,21 @@ use Psr\Container\ContainerInterface;
 abstract class CurdController
 {
     /**
-     * @Inject
      * @var ContainerInterface
      */
     protected $container;
 
     /**
-     * @Inject
      * @var RequestInterface
      */
     protected $request;
 
     /**
-     * @Inject
      * @var ResponseInterface
      */
     protected $response;
 
     /**
-     * @Inject
      * @var ValidatorFactoryInterface
      */
     protected $validation;
@@ -353,8 +348,17 @@ abstract class CurdController
         'msg' => 'error:after_fail'
     ];
 
-    public function __construct(RequestInterface $request)
+    public function __construct(
+        ContainerInterface $container,
+        RequestInterface $request,
+        ResponseInterface $response,
+        ValidatorFactoryInterface $validation
+    )
     {
+        $this->container = $container;
+        $this->request = $request;
+        $this->response = $response;
+        $this->validation = $validation;
         $this->post = $request->post();
     }
 }
