@@ -21,10 +21,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait GetModel
 {
-    /**
-     * @return array
-     * @PostMapping(path="get")
-     */
     public function get()
     {
         try {

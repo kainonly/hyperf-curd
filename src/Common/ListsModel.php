@@ -24,10 +24,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait ListsModel
 {
-    /**
-     * @return array
-     * @PostMapping(path="lists")
-     */
     public function lists()
     {
         try {
