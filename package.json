@@ -1,0 +1,24 @@
+{
+  "name": "van-common",
+  "version": "1.0.0",
+  "main": "dist/public-api.js",
+  "peerDependencies": {
+    "fastify": "^2.0.0"
+  },
+  "keywords": [
+    "van-framework"
+  ],
+  "author": {
+    "name": "kain",
+    "email": "zhangtqx@vip.qq.com"
+  },
+  "homepage": "https://github.com/kainonly/van-common",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kainonly/van-common.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kainonly/van-common/issues"
+  },
+  "license": "MIT"
+}
