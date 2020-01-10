@@ -23,7 +23,11 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait DeleteModel
 {
-    public function delete()
+    /**
+     * @PostMapping()
+     * @return array
+     */
+    public function delete(): array
     {
         $validator = $this->validation->make($this->post, array_merge(
             $this->delete_validate,

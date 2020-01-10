@@ -22,7 +22,11 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait AddModel
 {
-    public function add()
+    /**
+     * @PostMapping()
+     * @return array
+     */
+    public function add(): array
     {
         $validator = $this->validation->make($this->post, array_merge(
             $this->add_validate,

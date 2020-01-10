@@ -43,7 +43,6 @@ abstract class CurdController
      */
     protected $post = [];
 
-
     /**
      * Origin Lists Validate
      * @var array

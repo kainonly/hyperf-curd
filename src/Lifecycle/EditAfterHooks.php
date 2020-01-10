@@ -7,7 +7,7 @@ interface EditAfterHooks
 {
     /**
      * Modify post processing
-     * @return mixed
+     * @return bool
      */
-    public function __editAfterHooks();
+    public function __editAfterHooks(): bool;
 }

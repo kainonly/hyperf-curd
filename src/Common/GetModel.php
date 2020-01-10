@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Hyperf\Curd\Common;
 
+use Exception;
 use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
@@ -21,7 +22,11 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait GetModel
 {
-    public function get()
+    /**
+     * @PostMapping()
+     * @return array
+     */
+    public function get(): array
     {
         try {
             $validator = $this->validation->make($this->post, array_merge(
@@ -63,7 +68,7 @@ trait GetModel
                     'error' => 0,
                     'data' => $data
                 ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [
                 'error' => 1,
                 'msg' => $e->getMessage()

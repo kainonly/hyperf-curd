@@ -7,8 +7,8 @@ interface GetCustom
 {
     /**
      * Customize individual data returns
-     * @param mixed $data
+     * @param array $data
      * @return array
      */
-    public function __getCustomReturn($data);
+    public function __getCustomReturn(array $data): array;
 }

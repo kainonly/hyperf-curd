@@ -7,7 +7,7 @@ interface DeleteAfterHooks
 {
     /**
      * Delete post processing
-     * @return mixed
+     * @return bool
      */
-    public function __deleteAfterHooks();
+    public function __deleteAfterHooks(): bool;
 }
