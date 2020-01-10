@@ -7,7 +7,7 @@ interface DeletePrepHooks
 {
     /**
      * Processing before the model is written after the transaction
-     * @return mixed
+     * @return bool
      */
-    public function __deletePrepHooks();
+    public function __deletePrepHooks(): bool;
 }

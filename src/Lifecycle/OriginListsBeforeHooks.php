@@ -7,7 +7,7 @@ interface OriginListsBeforeHooks
 {
     /**
      * List data acquisition preprocessing
-     * @return boolean
+     * @return bool
      */
-    public function __originListsBeforeHooks();
+    public function __originListsBeforeHooks(): bool;
 }

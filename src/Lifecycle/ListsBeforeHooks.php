@@ -7,7 +7,7 @@ interface ListsBeforeHooks
 {
     /**
      * Paging data acquisition preprocessing
-     * @return boolean
+     * @return bool
      */
-    public function __listsBeforeHooks();
+    public function __listsBeforeHooks(): bool;
 }

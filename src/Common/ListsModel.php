@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Common;
 
 use Closure;
+use Exception;
 use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
@@ -24,7 +25,11 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 trait ListsModel
 {
-    public function lists()
+    /**
+     * @PostMapping()
+     * @return array
+     */
+    public function lists(): array
     {
         try {
             $validator = $this->validation->make($this->post, array_merge(
@@ -79,7 +84,7 @@ trait ListsModel
                         'total' => $total
                     ]
                 ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [
                 'error' => 1,
                 'msg' => $e->errorInfo

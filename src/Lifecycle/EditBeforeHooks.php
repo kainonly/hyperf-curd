@@ -7,7 +7,7 @@ interface EditBeforeHooks
 {
     /**
      * Modify preprocessing
-     * @return boolean
+     * @return bool
      */
-    public function __editBeforeHooks();
+    public function __editBeforeHooks(): bool;
 }

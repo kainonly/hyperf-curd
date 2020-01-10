@@ -7,8 +7,8 @@ interface AddAfterHooks
 {
     /**
      * Add post processing
-     * @param string|int $id
-     * @return mixed
+     * @param int $id
+     * @return bool
      */
-    public function __addAfterHooks($id);
+    public function __addAfterHooks(int $id): bool;
 }

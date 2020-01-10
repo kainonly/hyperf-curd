@@ -11,5 +11,5 @@ interface ListsCustom
      * @param int $total
      * @return array
      */
-    public function __listsCustomReturn(array $lists, int $total);
+    public function __listsCustomReturn(array $lists, int $total): array;
 }
