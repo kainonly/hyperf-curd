@@ -1,0 +1,22 @@
+{
+  "name": "kain/hyperf-curd",
+  "description": "CURD library for Hyperf framework",
+  "require": {
+    "ext-swoole": ">=4.4",
+    "hyperf/database": "~1.1.0",
+    "hyperf/framework": "~1.1.0",
+    "hyperf/validation": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hyperf\\Curd\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "kain",
+      "email": "zhangtqx@vip.qq.com"
+    }
+  ],
+  "license": "MIT"
+}
