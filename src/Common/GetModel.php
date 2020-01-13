@@ -68,10 +68,10 @@ trait GetModel
                     'error' => 0,
                     'data' => $data
                 ];
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             return [
                 'error' => 1,
-                'msg' => $e->getMessage()
+                'msg' => $exception->getMessage()
             ];
         }
     }

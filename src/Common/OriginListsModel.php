@@ -71,10 +71,10 @@ trait OriginListsModel
                     'error' => 0,
                     'data' => $lists
                 ];
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             return [
                 'error' => 1,
-                'msg' => $e->errorInfo
+                'msg' => $exception->getMessage()
             ];
         }
     }

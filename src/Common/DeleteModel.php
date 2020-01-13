@@ -12,6 +12,7 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  * @package Hyperf\Curd\Common
  * @property ValidatorFactoryInterface $validation
  * @property string $model
+ * @property string $delete_model
  * @property array $post
  * @property array $delete_validate
  * @property array $delete_default_validate
@@ -29,6 +30,7 @@ trait DeleteModel
      */
     public function delete(): array
     {
+        $this->model = $this->delete_model ?? $this->model;
         $validator = $this->validation->make($this->post, array_merge(
             $this->delete_validate,
             $this->delete_default_validate
