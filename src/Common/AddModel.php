@@ -12,6 +12,7 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  * @package Hyperf\Curd\Common
  * @property ValidatorFactoryInterface $validation
  * @property string $model
+ * @property string $add_model
  * @property array $post
  * @property array $add_validate
  * @property bool $add_auto_timestamp
@@ -28,6 +29,7 @@ trait AddModel
      */
     public function add(): array
     {
+        $this->model = $this->add_model ?? $this->model;
         $validator = $this->validation->make($this->post, array_merge(
             $this->add_validate,
             $this->add_default_validate

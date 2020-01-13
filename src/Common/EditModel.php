@@ -12,6 +12,7 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  * @package Hyperf\Curd\Common
  * @property ValidatorFactoryInterface $validation
  * @property string $model
+ * @property string $edit_model
  * @property array $post
  * @property boolean $edit_switch
  * @property array $edit_validate
@@ -30,6 +31,7 @@ trait EditModel
      */
     public function edit(): array
     {
+        $this->model = $this->edit_model ?? $this->model;
         $default_validator = $this->validation->make(
             $this->post,
             $this->edit_default_validate

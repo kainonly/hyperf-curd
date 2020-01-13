@@ -165,6 +165,12 @@ abstract class CurdController
     protected array $get_field = ['*'];
 
     /**
+     * Add Model
+     * @var string
+     */
+    protected string $add_model;
+
+    /**
      * Add Validate
      * @var array
      */
@@ -210,6 +216,12 @@ abstract class CurdController
         'error' => 1,
         'msg' => 'error:insert_fail'
     ];
+
+    /**
+     * Edit Model
+     * @var string
+     */
+    protected string $edit_model;
 
     /**
      * Edit Validate
@@ -272,6 +284,12 @@ abstract class CurdController
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
+
+    /**
+     * Delete Model
+     * @var string
+     */
+    protected string $delete_model;
 
     /**
      * Delete Validate

@@ -84,10 +84,10 @@ trait ListsModel
                         'total' => $total
                     ]
                 ];
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             return [
                 'error' => 1,
-                'msg' => $e->errorInfo
+                'msg' => $exception->getMessage()
             ];
         }
     }
