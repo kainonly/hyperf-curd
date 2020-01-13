@@ -59,8 +59,8 @@ trait EditModel
             $this->post['update_time'] = time();
         }
 
-        if (method_exists($this, '__editBeforeHooks') &&
-            !$this->__editBeforeHooks()) {
+        if (method_exists($this, 'editBeforeHooks') &&
+            !$this->editBeforeHooks()) {
             return $this->edit_before_result;
         }
 
@@ -87,8 +87,8 @@ trait EditModel
                 return false;
             }
 
-            if (method_exists($this, '__editAfterHooks') &&
-                !$this->__editAfterHooks()) {
+            if (method_exists($this, 'editAfterHooks') &&
+                !$this->editAfterHooks()) {
                 $this->edit_fail_result = $this->edit_after_result;
                 DB::rollBack();
                 return false;

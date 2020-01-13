@@ -9,5 +9,5 @@ interface DeleteAfterHooks
      * Delete post processing
      * @return bool
      */
-    public function __deleteAfterHooks(): bool;
+    public function deleteAfterHooks(): bool;
 }

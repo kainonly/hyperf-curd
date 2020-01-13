@@ -9,5 +9,5 @@ interface DeleteBeforeHooks
      * Delete pre-processing
      * @return bool
      */
-    public function __deleteBeforeHooks(): bool;
+    public function deleteBeforeHooks(): bool;
 }

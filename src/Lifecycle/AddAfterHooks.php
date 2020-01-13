@@ -10,5 +10,5 @@ interface AddAfterHooks
      * @param int $id
      * @return bool
      */
-    public function __addAfterHooks(int $id): bool;
+    public function addAfterHooks(int $id): bool;
 }
