@@ -9,5 +9,5 @@ interface GetBeforeHooks
      * Get pre-processing of individual data
      * @return bool
      */
-    public function __getBeforeHooks(): bool;
+    public function getBeforeHooks(): bool;
 }

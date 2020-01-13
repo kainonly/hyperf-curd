@@ -41,8 +41,8 @@ trait GetModel
                 ];
             }
 
-            if (method_exists($this, '__getBeforeHooks') &&
-                !$this->__getBeforeHooks()) {
+            if (method_exists($this, 'getBeforeHooks') &&
+                !$this->getBeforeHooks()) {
                 return $this->get_before_result;
             }
 
@@ -63,8 +63,8 @@ trait GetModel
                 ->where($condition)
                 ->first($this->get_field);
 
-            return method_exists($this, '__getCustomReturn') ?
-                $this->__getCustomReturn($data) : [
+            return method_exists($this, 'getCustomReturn') ?
+                $this->getCustomReturn($data) : [
                     'error' => 0,
                     'data' => $data
                 ];

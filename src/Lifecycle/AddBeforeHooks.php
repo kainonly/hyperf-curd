@@ -9,5 +9,5 @@ interface AddBeforeHooks
      * Add pre-processing
      * @return bool
      */
-    public function __addBeforeHooks(): bool;
+    public function addBeforeHooks(): bool;
 }

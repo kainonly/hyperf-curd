@@ -41,15 +41,15 @@ trait DeleteModel
             ];
         }
 
-        if (method_exists($this, '__deleteBeforeHooks') &&
-            !$this->__deleteBeforeHooks()) {
+        if (method_exists($this, 'deleteBeforeHooks') &&
+            !$this->deleteBeforeHooks()) {
             return $this->delete_before_result;
         }
 
 
         return !DB::transaction(function () {
-            if (method_exists($this, '__deletePrepHooks') &&
-                !$this->__deletePrepHooks()) {
+            if (method_exists($this, 'deletePrepHooks') &&
+                !$this->deletePrepHooks()) {
                 $this->delete_fail_result = $this->delete_prep_result;
                 return false;
             }
@@ -72,8 +72,8 @@ trait DeleteModel
                 return false;
             }
 
-            if (method_exists($this, '__deleteAfterHooks') &&
-                !$this->__deleteAfterHooks()) {
+            if (method_exists($this, 'deleteAfterHooks') &&
+                !$this->deleteAfterHooks()) {
                 $this->delete_fail_result = $this->delete_after_result;
                 DB::rollBack();
                 return false;

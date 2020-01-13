@@ -44,8 +44,8 @@ trait ListsModel
                 ];
             }
 
-            if (method_exists($this, '__listsBeforeHooks') &&
-                !$this->__listsBeforeHooks()) {
+            if (method_exists($this, 'listsBeforeHooks') &&
+                !$this->listsBeforeHooks()) {
                 return $this->lists_before_result;
             }
 
@@ -76,8 +76,8 @@ trait ListsModel
                 $listsQuery->where($this->lists_condition_group)
                     ->get($this->lists_field);
 
-            return method_exists($this, '__listsCustomReturn') ?
-                $this->__listsCustomReturn($lists, $total) : [
+            return method_exists($this, 'listsCustomReturn') ?
+                $this->listsCustomReturn($lists, $total) : [
                     'error' => 0,
                     'data' => [
                         'lists' => $lists,
