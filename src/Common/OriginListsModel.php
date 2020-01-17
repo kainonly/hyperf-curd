@@ -6,7 +6,6 @@ namespace Hyperf\Curd\Common;
 use Closure;
 use Exception;
 use Hyperf\DbConnection\Db;
-use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
@@ -26,7 +25,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 trait OriginListsModel
 {
     /**
-     * @PostMapping()
      * @return array
      */
     public function originLists(): array

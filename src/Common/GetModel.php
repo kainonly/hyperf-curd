@@ -5,7 +5,6 @@ namespace Hyperf\Curd\Common;
 
 use Exception;
 use Hyperf\DbConnection\Db;
-use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
@@ -23,7 +22,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 trait GetModel
 {
     /**
-     * @PostMapping()
      * @return array
      */
     public function get(): array
