@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Common;
 
 use Hyperf\DbConnection\Db;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
  * Trait DeleteModel
  * @package Hyperf\Curd\Common
+ * @property RequestInterface $request
  * @property ValidatorFactoryInterface $validation
  * @property string $model
  * @property string $delete_model
@@ -28,6 +30,7 @@ trait DeleteModel
      */
     public function delete(): array
     {
+        $this->post = $this->request->post();
         $this->model = $this->delete_model ?? $this->model;
         $validator = $this->validation->make($this->post, array_merge(
             $this->delete_validate,
