@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Common;
 
 use Hyperf\DbConnection\Db;
-use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
@@ -25,7 +24,6 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 trait DeleteModel
 {
     /**
-     * @PostMapping()
      * @return array
      */
     public function delete(): array
