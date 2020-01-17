@@ -5,11 +5,13 @@ namespace Hyperf\Curd\Common;
 
 use Exception;
 use Hyperf\DbConnection\Db;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
  * Trait GetModel
  * @package Hyperf\Curd\Common
+ * @property RequestInterface $request
  * @property ValidatorFactoryInterface $validation
  * @property string $model
  * @property array $post
@@ -27,6 +29,7 @@ trait GetModel
     public function get(): array
     {
         try {
+            $this->post = $this->request->post();
             $validator = $this->validation->make($this->post, array_merge(
                 $this->get_validate,
                 $this->get_default_validate

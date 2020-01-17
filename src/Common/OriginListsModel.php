@@ -6,11 +6,13 @@ namespace Hyperf\Curd\Common;
 use Closure;
 use Exception;
 use Hyperf\DbConnection\Db;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
  * Trait ListsModel
  * @package Hyperf\Curd\Common
+ * @property RequestInterface $request
  * @property ValidatorFactoryInterface $validation
  * @property string $model
  * @property array $post
@@ -30,6 +32,7 @@ trait OriginListsModel
     public function originLists(): array
     {
         try {
+            $this->post = $this->request->post();
             $validator = $this->validation->make($this->post, array_merge(
                 $this->origin_lists_validate,
                 $this->origin_lists_default_validate

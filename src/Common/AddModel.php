@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Common;
 
 use Hyperf\DbConnection\Db;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
  * Trait AddModel
  * @package Hyperf\Curd\Common
+ * @property RequestInterface $request
  * @property ValidatorFactoryInterface $validation
  * @property string $model
  * @property string $add_model
@@ -27,6 +29,7 @@ trait AddModel
      */
     public function add(): array
     {
+        $this->post = $this->request->post();
         $this->model = $this->add_model ?? $this->model;
         $validator = $this->validation->make($this->post, array_merge(
             $this->add_validate,

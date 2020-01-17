@@ -361,6 +361,5 @@ abstract class CurdController
         $this->request = $request;
         $this->response = $response;
         $this->validation = $validation;
-        $this->post = $request->post();
     }
 }
