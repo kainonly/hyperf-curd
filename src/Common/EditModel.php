@@ -47,7 +47,10 @@ trait EditModel
 
         $this->edit_switch = $this->post['switch'];
         if (!$this->edit_switch) {
-            $validator = $this->validation->make($this->post, $this->edit_validate);
+            $validator = $this->validation->make(
+                $this->post,
+                $this->edit_validate
+            );
             if ($validator->fails()) {
                 return [
                     'error' => 1,
@@ -62,36 +65,28 @@ trait EditModel
             $this->post['update_time'] = time();
         }
 
-        if (method_exists($this, 'editBeforeHooks') &&
-            !$this->editBeforeHooks()) {
+        if (method_exists($this, 'editBeforeHooks')
+            && !$this->editBeforeHooks()) {
             return $this->edit_before_result;
         }
 
         return !DB::transaction(function () {
-            $condition = $this->edit_condition;
-            if (isset($this->post['id'])) {
-                array_push(
-                    $condition,
-                    ['id', '=', $this->post['id']]
-                );
-            } else {
-                $condition = array_merge(
-                    $condition,
-                    $this->post['where']
-                );
-            }
-
+            $condition = [
+                ...$this->edit_condition,
+                ...!empty($this->post['id']) ? [['id', '=', $this->post['id']]] : $this->post['where']
+            ];
             unset($this->post['where']);
-            $result = DB::table($this->model)
+
+            $query = DB::table($this->model)
                 ->where($condition)
                 ->update($this->post);
 
-            if (!$result) {
+            if (!$query) {
                 return false;
             }
 
-            if (method_exists($this, 'editAfterHooks') &&
-                !$this->editAfterHooks()) {
+            if (method_exists($this, 'editAfterHooks')
+                && !$this->editAfterHooks()) {
                 $this->edit_fail_result = $this->edit_after_result;
                 DB::rollBack();
                 return false;
