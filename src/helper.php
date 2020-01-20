@@ -13,7 +13,7 @@ if (!function_exists('AutoController')) {
     function AutoController(string $controller, array $options = [])
     {
         $reflect = new ReflectionClass($controller);
-        $path = lcfirst(Str::before($reflect->getShortName(), 'Controller'));
+        $path = Str::snake(Str::before($reflect->getShortName(), 'Controller'), '_');
         $methods = array_filter(
             $reflect->getMethods(ReflectionMethod::IS_PUBLIC),
             fn($v) => !in_array($v->name, config('curd.auto.ignore'), true)
