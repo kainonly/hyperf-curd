@@ -47,8 +47,8 @@ trait AddModel
             $this->post['create_time'] = $this->post['update_time'] = time();
         }
 
-        if (method_exists($this, 'addBeforeHooks') &&
-            !$this->addBeforeHooks()) {
+        if (method_exists($this, 'addBeforeHooks')
+            && !$this->addBeforeHooks()) {
             return $this->add_before_result;
         }
 
@@ -63,11 +63,13 @@ trait AddModel
                 $id = $this->post['id'];
                 $result = DB::table($this->model)
                     ->insert($this->post);
+
                 if (!$result) {
                     return false;
                 }
             } else {
-                $id = DB::table($this->model)->insertGetId($this->post);
+                $id = DB::table($this->model)
+                    ->insertGetId($this->post);
             }
 
             if (empty($id) || !$this->addAfterHooks($id)) {

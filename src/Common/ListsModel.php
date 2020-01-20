@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Common;
 
 use Closure;
-use Exception;
 use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
@@ -31,65 +30,59 @@ trait ListsModel
      */
     public function lists(): array
     {
-        try {
-            $this->post = $this->request->post();
-            $validator = $this->validation->make($this->post, array_merge(
-                $this->lists_validate,
-                $this->lists_default_validate
-            ));
+        $this->post = $this->request->post();
+        $validator = $this->validation->make($this->post, array_merge(
+            $this->lists_validate,
+            $this->lists_default_validate
+        ));
 
-            if ($validator->fails()) {
-                return [
-                    'error' => 1,
-                    'msg' => $validator->errors()
-                ];
-            }
-
-            if (method_exists($this, 'listsBeforeHooks') &&
-                !$this->listsBeforeHooks()) {
-                return $this->lists_before_result;
-            }
-
-            $condition = $this->lists_condition;
-            if (isset($this->post['where'])) {
-                $condition = array_merge(
-                    $condition,
-                    $this->post['where']
-                );
-            }
-
-            $totalQuery = DB::table($this->model)
-                ->where($condition);
-
-            $total = empty($this->lists_condition_group) ?
-                $totalQuery->count() :
-                $totalQuery->where($this->lists_condition_group)
-                    ->count();
-
-            $listsQuery = DB::table($this->model)
-                ->where($condition)
-                ->orderBy(...$this->lists_order)
-                ->take($this->post['page']['limit'])
-                ->skip($this->post['page']['index'] - 1);
-
-            $lists = empty($this->lists_condition_group) ?
-                $listsQuery->get($this->lists_field) :
-                $listsQuery->where($this->lists_condition_group)
-                    ->get($this->lists_field);
-
-            return method_exists($this, 'listsCustomReturn') ?
-                $this->listsCustomReturn($lists, $total) : [
-                    'error' => 0,
-                    'data' => [
-                        'lists' => $lists,
-                        'total' => $total
-                    ]
-                ];
-        } catch (Exception $exception) {
+        if ($validator->fails()) {
             return [
                 'error' => 1,
-                'msg' => $exception->getMessage()
+                'msg' => $validator->errors()
             ];
         }
+
+        if (method_exists($this, 'listsBeforeHooks')
+            && !$this->listsBeforeHooks()) {
+            return $this->lists_before_result;
+        }
+
+        $condition = [
+            ...$this->lists_condition,
+            ...$this->post['where'] ?? []
+        ];
+
+        $totalQuery = DB::table($this->model)
+            ->where($condition);
+
+        $total = empty($this->lists_query) ?
+            $totalQuery->count() :
+            $totalQuery->where($this->lists_query)
+                ->count();
+
+        $listsQuery = DB::table($this->model)
+            ->where($condition)
+            ->take($this->post['page']['limit'])
+            ->skip($this->post['page']['index'] - 1);
+
+        if (!empty($this->lists_order) && count($this->lists_order) === 2) {
+            $listsQuery = $listsQuery
+                ->orderBy(...$this->lists_order);
+        }
+
+        $lists = empty($this->lists_query) ?
+            $listsQuery->get($this->lists_field) :
+            $listsQuery->where($this->lists_query)
+                ->get($this->lists_field);
+
+        return method_exists($this, 'listsCustomReturn') ?
+            $this->listsCustomReturn($lists, $total) : [
+                'error' => 0,
+                'data' => [
+                    'lists' => $lists,
+                    'total' => $total
+                ]
+            ];
     }
 }

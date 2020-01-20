@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Hyperf\Curd\Common;
 
-use Exception;
 use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
@@ -28,52 +27,37 @@ trait GetModel
      */
     public function get(): array
     {
-        try {
-            $this->post = $this->request->post();
-            $validator = $this->validation->make($this->post, array_merge(
-                $this->get_validate,
-                $this->get_default_validate
-            ));
+        $this->post = $this->request->post();
+        $validator = $this->validation->make($this->post, array_merge(
+            $this->get_validate,
+            $this->get_default_validate
+        ));
 
-            if ($validator->fails()) {
-                return [
-                    'error' => 1,
-                    'msg' => $validator->errors()
-                ];
-            }
-
-            if (method_exists($this, 'getBeforeHooks') &&
-                !$this->getBeforeHooks()) {
-                return $this->get_before_result;
-            }
-
-            $condition = $this->get_condition;
-            if (isset($this->post['id'])) {
-                array_push(
-                    $condition,
-                    ['id', '=', $this->post['id']]
-                );
-            } else {
-                $condition = array_merge(
-                    $condition,
-                    $this->post['where']
-                );
-            }
-
-            $data = DB::table($this->model)
-                ->where($condition)
-                ->first($this->get_field);
-
-            return method_exists($this, 'getCustomReturn') ?
-                $this->getCustomReturn($data) : [
-                    'error' => 0,
-                    'data' => $data
-                ];
-        } catch (Exception $exception) {
+        if ($validator->fails()) {
             return [
                 'error' => 1,
-                'msg' => $exception->getMessage()
+                'msg' => $validator->errors()
             ];
         }
+
+        if (method_exists($this, 'getBeforeHooks')
+            && !$this->getBeforeHooks()) {
+            return $this->get_before_result;
+        }
+
+        $condition = [
+            ...$this->get_condition,
+            ...!empty($this->post['id']) ? [['id', '=', $this->post['id']]] : $this->post['where']
+        ];
+
+        $data = DB::table($this->model)
+            ->where($condition)
+            ->first($this->get_field);
+
+        return method_exists($this, 'getCustomReturn') ?
+            $this->getCustomReturn($data) : [
+                'error' => 0,
+                'data' => $data
+            ];
     }
 }
