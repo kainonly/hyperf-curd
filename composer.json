@@ -11,10 +11,7 @@
   "autoload": {
     "psr-4": {
       "Hyperf\\Curd\\": "src/"
-    },
-    "files": [
-      "src/helper.php"
-    ]
+    }
   },
   "authors": [
     {
