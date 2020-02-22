@@ -1,12 +1,14 @@
 {
   "name": "kain/hyperf-curd",
-  "description": "CURD library for Hyperf framework",
+  "description": "辅助 Hyperf 快速集成 CURD API 的工具集",
   "require": {
     "php": ">=7.4",
-    "ext-swoole": ">=4.4",
-    "hyperf/database": "~1.1.0",
     "hyperf/framework": "~1.1.0",
+    "hyperf/database": "~1.1.0",
     "hyperf/validation": "^1.1"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
   },
   "autoload": {
     "psr-4": {
