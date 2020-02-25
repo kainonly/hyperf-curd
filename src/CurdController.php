@@ -186,9 +186,7 @@ abstract class CurdController
      * Add Default Validate
      * @var array
      */
-    protected array $add_default_validate = [
-        'id' => 'sometimes|required|integer'
-    ];
+    protected array $add_default_validate = [];
 
     /**
      * Add Before Response Body
