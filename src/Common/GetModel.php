@@ -55,7 +55,7 @@ trait GetModel
             ->first($this->get_field);
 
         return method_exists($this, 'getCustomReturn') ?
-            $this->getCustomReturn($data) : [
+            $this->getCustomReturn((array)$data) : [
                 'error' => 0,
                 'data' => $data
             ];
