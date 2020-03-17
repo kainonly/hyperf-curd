@@ -61,9 +61,11 @@ trait OriginListsModel
                 ->orderBy(...$this->origin_lists_order);
         }
 
-        $lists = empty($this->origin_lists_query) ?
-            $query->get($this->origin_lists_field) :
-            $query->where($this->origin_lists_query);
+        if (!empty($this->origin_lists_query)) {
+            $query = $query->where($this->origin_lists_query);
+        }
+
+        $lists = $query->get($this->origin_lists_field);
 
         return method_exists($this, 'originListsCustomReturn') ?
             $this->originListsCustomReturn($lists) : [
