@@ -56,10 +56,11 @@ trait ListsModel
         $totalQuery = DB::table($this->model)
             ->where($condition);
 
-        $total = empty($this->lists_query) ?
-            $totalQuery->count() :
-            $totalQuery->where($this->lists_query)
-                ->count();
+        if (!empty($this->lists_query)) {
+            $totalQuery = $totalQuery->where($this->lists_query);
+        }
+
+        $total = $totalQuery->count();
 
         $listsQuery = DB::table($this->model)
             ->where($condition)
@@ -71,10 +72,11 @@ trait ListsModel
                 ->orderBy(...$this->lists_order);
         }
 
-        $lists = empty($this->lists_query) ?
-            $listsQuery->get($this->lists_field) :
-            $listsQuery->where($this->lists_query)
-                ->get($this->lists_field);
+        if (!empty($this->lists_query)) {
+            $listsQuery = $listsQuery->where($this->lists_query);
+        }
+
+        $lists = $listsQuery->get($this->lists_field);
 
         return method_exists($this, 'listsCustomReturn') ?
             $this->listsCustomReturn($lists, $total) : [
