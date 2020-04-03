@@ -4,13 +4,15 @@ declare(strict_types=1);
 namespace Hyperf\Curd;
 
 use Hyperf\Curd\Factory\AddModel;
+use Hyperf\Curd\Factory\DeleteModel;
+use Hyperf\Curd\Factory\EditModel;
 use Hyperf\Curd\Factory\GetModel;
 use Hyperf\Curd\Factory\ListsModel;
 use Hyperf\Curd\Factory\OriginListsModel;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
-class CurdService
+class CurdService implements CurdInterface
 {
     private RequestInterface $request;
     private ValidatorFactoryInterface $validation;
@@ -28,6 +30,7 @@ class CurdService
      * @param array $validate
      * @param array|null $default
      * @return array
+     * @inheritDoc
      */
     public function originListsValidation(array $validate, ?array $default): array
     {
@@ -51,6 +54,7 @@ class CurdService
     /**
      * @param string $name
      * @return OriginListsModel
+     * @inheritDoc
      */
     public function originListsModel(string $name): OriginListsModel
     {
@@ -62,6 +66,7 @@ class CurdService
      * @param array $validate
      * @param array|null $default
      * @return array
+     * @inheritDoc
      */
     public function listsValidation(array $validate, ?array $default): array
     {
@@ -88,6 +93,7 @@ class CurdService
     /**
      * @param string $name
      * @return ListsModel
+     * @inheritDoc
      */
     public function listsModel(string $name): ListsModel
     {
@@ -99,6 +105,7 @@ class CurdService
      * @param array $validate
      * @param array|null $default
      * @return array
+     * @inheritDoc
      */
     public function getValidation(array $validate, ?array $default): array
     {
@@ -123,6 +130,7 @@ class CurdService
     /**
      * @param string $name
      * @return GetModel
+     * @inheritDoc
      */
     public function getModel(string $name): GetModel
     {
@@ -134,6 +142,7 @@ class CurdService
      * @param array $validate
      * @param array|null $default
      * @return array
+     * @inheritDoc
      */
     public function addValidation(array $validate, ?array $default): array
     {
@@ -154,6 +163,7 @@ class CurdService
     /**
      * @param string $name
      * @return AddModel
+     * @inheritDoc
      */
     public function addModel(string $name): AddModel
     {
@@ -165,6 +175,7 @@ class CurdService
      * @param array $validate
      * @param array|null $default
      * @return array
+     * @inheritDoc
      */
     public function editValidation(array $validate, ?array $default): array
     {
@@ -200,9 +211,21 @@ class CurdService
     }
 
     /**
+     * @param string $name
+     * @return EditModel
+     * @inheritDoc
+     */
+    public function editModel(string $name): EditModel
+    {
+        $body = $this->request->post();
+        return new EditModel($name, $body);
+    }
+
+    /**
      * @param array $validate
      * @param array|null $default
      * @return array
+     * @inheritDoc
      */
     public function deleteValidation(array $validate, ?array $default): array
     {
@@ -223,5 +246,16 @@ class CurdService
         ] : [
             'error' => 0
         ];
+    }
+
+    /**
+     * @param string $name
+     * @return DeleteModel
+     * @inheritDoc
+     */
+    public function deleteModel(string $name): DeleteModel
+    {
+        $body = $this->request->post();
+        return new DeleteModel($name, $body);
     }
 }
