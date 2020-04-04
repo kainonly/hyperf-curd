@@ -4,22 +4,21 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Factory;
 
 use Closure;
+use Hyperf\Curd\Common\DeleteAfterParams;
+use Hyperf\Curd\Common\DeletePrepParams;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Context;
 
-/**
- * @method void|string prepEvent(array &$body)
- * @method void|string afterEvent(int $id)
- */
 class DeleteModel
 {
     private string $name;
     private array $body;
     private array $condition = [];
-    private ?Closure $prepEvent = null;
-    private ?Closure $afterEvent = null;
-    private array $resultFailed = [
+    private ?Closure $prep = null;
+    private ?Closure $after = null;
+    private array $error = [
         'error' => 1,
-        'msg' => 'delete failed'
+        'msg' => 'add failed'
     ];
 
     public function __construct(string $name, array $body)
@@ -44,20 +43,20 @@ class DeleteModel
      * @param Closure $value
      * @return $this
      */
-    public function onPrepEvent(Closure $value): self
+    public function prepHook(Closure $value): self
     {
-        $this->prepEvent = $value;
+        $this->prep = $value;
         return $this;
     }
 
     /**
-     * 监听后置处理
+     * 设置后置处理
      * @param Closure $value
      * @return $this
      */
-    public function onAfterEvent(Closure $value): self
+    public function afterHook(Closure $value): self
     {
-        $this->afterEvent = $value;
+        $this->after = $value;
         return $this;
     }
 
@@ -68,10 +67,18 @@ class DeleteModel
     public function result(): array
     {
         return !Db::transaction(function () {
-            $prep = $this->prepEvent($this->body);
-            if (!empty($prep)) {
-                $this->resultFailed['msg'] = $prep;
-                return false;
+            if (!empty($this->prep)) {
+                $param = new DeletePrepParams();
+                $param->setId($this->body['id']);
+                $param->setBody($this->body);
+                $func = $this->prep;
+                if (!$func($param)) {
+                    $this->error = Context::get('error', [
+                        'error' => 1,
+                        'msg' => 'prep hook failed'
+                    ]);
+                    return false;
+                }
             }
 
             $condition = $this->condition;
@@ -91,14 +98,21 @@ class DeleteModel
                 return false;
             }
 
-            $after = $this->afterEvent($this->body['id']);
-            if (!empty($after)) {
-                $this->resultFailed['msg'] = $after;
-                return false;
+            if (!empty($this->after)) {
+                $param = new DeleteAfterParams();
+                $param->setId($this->body['id']);
+                $func = $this->after;
+                if (!$func($param)) {
+                    $this->error = Context::get('error', [
+                        'error' => 1,
+                        'msg' => 'after hook failed'
+                    ]);
+                    return false;
+                }
             }
 
             return true;
-        }) ? $this->resultFailed : [
+        }) ? $this->error : [
             'error' => 0,
             'msg' => 'ok'
         ];

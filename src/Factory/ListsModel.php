@@ -77,7 +77,7 @@ class ListsModel
             ...$this->body['where'] ?? []
         ];
 
-        $totalQuery = DB::table($this->name)
+        $totalQuery = Db::table($this->name)
             ->where($condition);
 
         if (!empty($this->subQuery)) {
@@ -86,7 +86,7 @@ class ListsModel
 
         $total = $totalQuery->count();
 
-        $listsQuery = DB::table($this->name)
+        $listsQuery = Db::table($this->name)
             ->where($condition)
             ->take($this->body['page']['limit'])
             ->skip($this->body['page']['index'] - 1);
