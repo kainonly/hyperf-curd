@@ -4,11 +4,10 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Factory;
 
 use Closure;
+use Hyperf\Curd\Common\EditAfterParams;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Context;
 
-/**
- * @method void|string afterEvent(int $id, bool $switch)
- */
 class EditModel
 {
     private string $name;
@@ -16,8 +15,8 @@ class EditModel
     private array $condition = [];
     private bool $autoTimestamp = true;
     private bool $switch = false;
-    private ?Closure $afterEvent = null;
-    private array $resultFailed = [
+    private ?Closure $after = null;
+    private array $error = [
         'error' => 1,
         'msg' => 'edit failed'
     ];
@@ -42,13 +41,13 @@ class EditModel
     }
 
     /**
-     * 监听后置处理
+     * 设置后置处理
      * @param Closure $value
      * @return $this
      */
-    public function onAfterEvent(Closure $value): self
+    public function afterHook(Closure $value): self
     {
-        $this->afterEvent = $value;
+        $this->after = $value;
         return $this;
     }
 
@@ -69,22 +68,26 @@ class EditModel
             ];
             unset($this->body['where']);
 
-            $query = Db::table($this->name)
+            Db::table($this->name)
                 ->where($condition)
                 ->update($this->body);
 
-            if (!$query) {
-                return false;
-            }
-
-            $after = $this->afterEvent($this->body['id'], $this->switch);
-            if (!empty($after)) {
-                $this->resultFailed['msg'] = $after;
-                return false;
+            if (!empty($this->after)) {
+                $param = new EditAfterParams();
+                $param->setId((int)$this->body['id']);
+                $param->setSwitch($this->switch);
+                $func = $this->after;
+                if (!$func($param)) {
+                    $this->error = Context::get('error', [
+                        'error' => 1,
+                        'msg' => 'after hook failed'
+                    ]);
+                    return false;
+                }
             }
 
             return true;
-        }) ? $this->resultFailed : [
+        }) ? $this->error : [
             'error' => 0,
             'msg' => 'ok'
         ];

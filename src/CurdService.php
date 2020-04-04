@@ -32,7 +32,7 @@ class CurdService implements CurdInterface
      * @return array
      * @inheritDoc
      */
-    public function originListsValidation(array $validate, array $default = []): array
+    public function originListsValidation(array $validate = [], array $default = []): array
     {
         $body = $this->request->post();
         $validator = $this->validation->make($body, array_merge(
@@ -53,11 +53,11 @@ class CurdService implements CurdInterface
 
     /**
      * @param string $name
-     * @param array $body
+     * @param array|null $body
      * @return OriginListsModel
      * @inheritDoc
      */
-    public function originListsModel(string $name, array $body = []): OriginListsModel
+    public function originListsModel(string $name, ?array $body = null): OriginListsModel
     {
         return new OriginListsModel($name, $body ?? $this->request->post());
     }
@@ -68,7 +68,7 @@ class CurdService implements CurdInterface
      * @return array
      * @inheritDoc
      */
-    public function listsValidation(array $validate, array $default = []): array
+    public function listsValidation(array $validate = [], array $default = []): array
     {
         $body = $this->request->post();
         $validator = $this->validation->make($body, array_merge(
@@ -92,11 +92,11 @@ class CurdService implements CurdInterface
 
     /**
      * @param string $name
-     * @param array $body
+     * @param array|null $body
      * @return ListsModel
      * @inheritDoc
      */
-    public function listsModel(string $name, array $body = []): ListsModel
+    public function listsModel(string $name, ?array $body = null): ListsModel
     {
         return new ListsModel($name, $body ?? $this->request->post());
     }
@@ -107,7 +107,7 @@ class CurdService implements CurdInterface
      * @return array
      * @inheritDoc
      */
-    public function getValidation(array $validate, array $default = []): array
+    public function getValidation(array $validate = [], array $default = []): array
     {
         $body = $this->request->post();
         $validator = $this->validation->make($body, array_merge(
@@ -129,11 +129,11 @@ class CurdService implements CurdInterface
 
     /**
      * @param string $name
-     * @param array $body
+     * @param array|null $body
      * @return GetModel
      * @inheritDoc
      */
-    public function getModel(string $name, array $body = []): GetModel
+    public function getModel(string $name, ?array $body = null): GetModel
     {
         return new GetModel($name, $body ?? $this->request->post());
     }
@@ -144,7 +144,7 @@ class CurdService implements CurdInterface
      * @return array
      * @inheritDoc
      */
-    public function addValidation(array $validate, array $default = []): array
+    public function addValidation(array $validate = [], array $default = []): array
     {
         $body = $this->request->post();
         $validator = $this->validation->make($body, array_merge(
@@ -162,11 +162,11 @@ class CurdService implements CurdInterface
 
     /**
      * @param string $name
-     * @param array $body
+     * @param array|null $body
      * @return AddModel
      * @inheritDoc
      */
-    public function addModel(string $name, array $body = []): AddModel
+    public function addModel(string $name, ?array $body = null): AddModel
     {
         return new AddModel($name, $body ?? $this->request->post());
     }
@@ -177,7 +177,7 @@ class CurdService implements CurdInterface
      * @return array
      * @inheritDoc
      */
-    public function editValidation(array $validate, array $default = []): array
+    public function editValidation(array $validate = [], array $default = []): array
     {
         $body = $this->request->post();
         $validator = $this->validation->make($body, $default ?? [
@@ -212,11 +212,11 @@ class CurdService implements CurdInterface
 
     /**
      * @param string $name
-     * @param array $body
+     * @param array|null $body
      * @return EditModel
      * @inheritDoc
      */
-    public function editModel(string $name, array $body = []): EditModel
+    public function editModel(string $name, ?array $body = null): EditModel
     {
         return new EditModel($name, $body ?? $this->request->post());
     }
@@ -227,7 +227,7 @@ class CurdService implements CurdInterface
      * @return array
      * @inheritDoc
      */
-    public function deleteValidation(array $validate, array $default = []): array
+    public function deleteValidation(array $validate = [], array $default = []): array
     {
         $body = $this->request->post();
         $validator = $this->validation->make($body, array_merge(
@@ -250,11 +250,11 @@ class CurdService implements CurdInterface
 
     /**
      * @param string $name
-     * @param array $body
+     * @param array|null $body
      * @return DeleteModel
      * @inheritDoc
      */
-    public function deleteModel(string $name, array $body = []): DeleteModel
+    public function deleteModel(string $name, ?array $body = null): DeleteModel
     {
         return new DeleteModel($name, $body ?? $this->request->post());
     }

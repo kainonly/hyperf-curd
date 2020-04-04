@@ -18,7 +18,7 @@ interface CurdInterface
      * @param array $default
      * @return array
      */
-    public function originListsValidation(array $validate, array $default = []): array;
+    public function originListsValidation(array $validate = [], array $default = []): array;
 
     /**
      * 列表请求模型
@@ -34,7 +34,7 @@ interface CurdInterface
      * @param array $default
      * @return array
      */
-    public function listsValidation(array $validate, array $default = []): array;
+    public function listsValidation(array $validate = [], array $default = []): array;
 
     /**
      * 分页请求模型
@@ -50,7 +50,7 @@ interface CurdInterface
      * @param array $default
      * @return array
      */
-    public function getValidation(array $validate, array $default = []): array;
+    public function getValidation(array $validate = [], array $default = []): array;
 
     /**
      * 获取数据请求模型
@@ -66,7 +66,7 @@ interface CurdInterface
      * @param array $default
      * @return array
      */
-    public function addValidation(array $validate, array $default = []): array;
+    public function addValidation(array $validate = [], array $default = []): array;
 
     /**
      * 新增数据请求模型
@@ -82,7 +82,7 @@ interface CurdInterface
      * @param array $default
      * @return array
      */
-    public function editValidation(array $validate, array $default = []): array;
+    public function editValidation(array $validate = [], array $default = []): array;
 
     /**
      * 编辑数据请求模型
@@ -98,7 +98,7 @@ interface CurdInterface
      * @param array $default
      * @return array
      */
-    public function deleteValidation(array $validate, array $default = []): array;
+    public function deleteValidation(array $validate = [], array $default = []): array;
 
     /**
      * 删除数据请求模型

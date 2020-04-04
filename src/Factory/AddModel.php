@@ -4,20 +4,19 @@ declare(strict_types=1);
 namespace Hyperf\Curd\Factory;
 
 use Closure;
+use Hyperf\Curd\Common\AddAfterParams;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Context;
 
-/**
- * @method void|string afterEvent(int $id)
- */
 class AddModel
 {
     private string $name;
     private array $body;
     private bool $autoTimestamp = true;
-    private ?Closure $afterEvent = null;
-    private array $resultFailed = [
+    private ?Closure $after = null;
+    private array $error = [
         'error' => 1,
-        'msg' => 'insert failed'
+        'msg' => 'add failed'
     ];
 
     public function __construct(string $name, array $body)
@@ -38,13 +37,13 @@ class AddModel
     }
 
     /**
-     * 监听后置处理
+     * 设置后置处理
      * @param Closure $value
      * @return $this
      */
-    public function onAfterEvent(Closure $value): self
+    public function afterHook(Closure $value): self
     {
-        $this->afterEvent = $value;
+        $this->after = $value;
         return $this;
     }
 
@@ -75,19 +74,30 @@ class AddModel
                 }
 
                 if (empty($id)) {
+                    $this->error = [
+                        'error' => 1,
+                        'msg' => 'this [id] is empty'
+                    ];
                     return false;
                 }
 
-                $after = $this->afterEvent($id);
-                if (!empty($after)) {
-                    $this->resultFailed['msg'] = $after;
-                    return false;
+                if (!empty($this->after)) {
+                    $param = new AddAfterParams();
+                    $param->setId($id);
+                    $func = $this->after;
+                    if ($func($param)) {
+                        $this->error = Context::get('error', [
+                            'error' => 1,
+                            'msg' => 'after hook failed'
+                        ]);
+                        return false;
+                    }
                 }
                 return true;
             });
         }
 
-        return !$result ? $this->resultFailed : [
+        return !$result ? $this->error : [
             'error' => 0,
             'msg' => 'ok'
         ];
