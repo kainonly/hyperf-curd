@@ -10,10 +10,10 @@ class OriginListsModel
 {
     private string $name;
     private array $body;
-    private array $condition;
-    private Closure $subQuery;
-    private array $order;
-    private array $field;
+    private array $condition = [];
+    private ?Closure $subQuery = null;
+    private array $order = [];
+    private array $field = ['*'];
 
     public function __construct(string $name, array $body)
     {

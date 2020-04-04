@@ -9,8 +9,8 @@ class GetModel
 {
     private string $name;
     private array $body;
-    private array $condition;
-    private array $field;
+    private array $condition = [];
+    private array $field = ['*'];
 
     public function __construct(string $name, array $body)
     {

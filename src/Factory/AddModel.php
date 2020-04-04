@@ -14,7 +14,7 @@ class AddModel
     private string $name;
     private array $body;
     private bool $autoTimestamp = true;
-    private Closure $afterEvent;
+    private ?Closure $afterEvent = null;
     private array $resultFailed = [
         'error' => 1,
         'msg' => 'insert failed'
