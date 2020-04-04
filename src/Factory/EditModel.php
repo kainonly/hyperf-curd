@@ -13,10 +13,10 @@ class EditModel
 {
     private string $name;
     private array $body;
-    private array $condition;
+    private array $condition = [];
     private bool $autoTimestamp = true;
     private bool $switch = false;
-    private Closure $afterEvent;
+    private ?Closure $afterEvent = null;
     private array $resultFailed = [
         'error' => 1,
         'msg' => 'edit failed'

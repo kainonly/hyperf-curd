@@ -14,9 +14,9 @@ class DeleteModel
 {
     private string $name;
     private array $body;
-    private array $condition;
-    private Closure $prepEvent;
-    private Closure $afterEvent;
+    private array $condition = [];
+    private ?Closure $prepEvent = null;
+    private ?Closure $afterEvent = null;
     private array $resultFailed = [
         'error' => 1,
         'msg' => 'delete failed'
