@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Hyperf\Curd;
 
+use Hyperf\Contract\ValidatorInterface;
 use Hyperf\Curd\Factory\AddModel;
 use Hyperf\Curd\Factory\DeleteModel;
 use Hyperf\Curd\Factory\EditModel;
@@ -28,27 +29,20 @@ class CurdService implements CurdInterface
 
     /**
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      * @inheritDoc
      */
-    public function originListsValidation(array $validate = [], array $default = []): array
+    public function originListsValidation(array $validate = [], ?array $default = null): ValidatorInterface
     {
         $body = $this->request->post();
-        $validator = $this->validation->make($body, array_merge(
+        return $this->validation->make($body, array_merge(
             $validate,
             $default ?? [
                 'where' => 'sometimes|array',
                 'where.*' => 'array|size:3'
             ]
         ));
-
-        return $validator->fails() ? [
-            'error' => 1,
-            'msg' => $validator->errors()
-        ] : [
-            'error' => 0
-        ];
     }
 
     /**
@@ -64,14 +58,14 @@ class CurdService implements CurdInterface
 
     /**
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      * @inheritDoc
      */
-    public function listsValidation(array $validate = [], array $default = []): array
+    public function listsValidation(array $validate = [], ?array $default = null): ValidatorInterface
     {
         $body = $this->request->post();
-        $validator = $this->validation->make($body, array_merge(
+        return $this->validation->make($body, array_merge(
             $validate,
             $default ?? [
                 'page' => 'required',
@@ -81,13 +75,6 @@ class CurdService implements CurdInterface
                 'where.*' => 'array|size:3'
             ]
         ));
-
-        return $validator->fails() ? [
-            'error' => 1,
-            'msg' => $validator->errors()
-        ] : [
-            'error' => 0
-        ];
     }
 
     /**
@@ -103,14 +90,14 @@ class CurdService implements CurdInterface
 
     /**
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      * @inheritDoc
      */
-    public function getValidation(array $validate = [], array $default = []): array
+    public function getValidation(array $validate = [], ?array $default = null): ValidatorInterface
     {
         $body = $this->request->post();
-        $validator = $this->validation->make($body, array_merge(
+        return $this->validation->make($body, array_merge(
             $validate,
             $default ?? [
                 'id' => 'required_without:where|integer',
@@ -118,13 +105,6 @@ class CurdService implements CurdInterface
                 'where.*' => 'array|size:3'
             ]
         ));
-
-        return $validator->fails() ? [
-            'error' => 1,
-            'msg' => $validator->errors()
-        ] : [
-            'error' => 0
-        ];
     }
 
     /**
@@ -140,24 +120,17 @@ class CurdService implements CurdInterface
 
     /**
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      * @inheritDoc
      */
-    public function addValidation(array $validate = [], array $default = []): array
+    public function addValidation(array $validate = [], ?array $default = null): ValidatorInterface
     {
         $body = $this->request->post();
-        $validator = $this->validation->make($body, array_merge(
+        return $this->validation->make($body, array_merge(
             $validate,
             $default ?? []
         ));
-
-        return $validator->fails() ? [
-            'error' => 1,
-            'msg' => $validator->errors()
-        ] : [
-            'error' => 0
-        ];
     }
 
     /**
@@ -173,41 +146,23 @@ class CurdService implements CurdInterface
 
     /**
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      * @inheritDoc
      */
-    public function editValidation(array $validate = [], array $default = []): array
+    public function editValidation(array $validate = [], ?array $default = null): ValidatorInterface
     {
         $body = $this->request->post();
-        $validator = $this->validation->make($body, $default ?? [
-                'id' => 'required_without:where|integer',
-                'switch' => 'required|bool',
-                'where' => 'required_without:id|array',
-                'where.*' => 'array|size:3'
-            ]
+        return $this->validation->make($body, array_merge(
+                $validate,
+                $default ?? [
+                    'id' => 'required_without:where|integer',
+                    'switch' => 'required|bool',
+                    'where' => 'required_without:id|array',
+                    'where.*' => 'array|size:3'
+                ]
+            )
         );
-
-        if ($validator->fails()) {
-            return [
-                'error' => 1,
-                'msg' => $validator->errors()
-            ];
-        }
-
-        if (!$body['switch']) {
-            $validator = $this->validation->make($body, $validate);
-            if ($validator->fails()) {
-                return [
-                    'error' => 1,
-                    'msg' => $validator->errors()
-                ];
-            }
-        }
-
-        return [
-            'error' => 0
-        ];
     }
 
     /**
@@ -223,14 +178,14 @@ class CurdService implements CurdInterface
 
     /**
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param ?array $default
+     * @return ValidatorInterface
      * @inheritDoc
      */
-    public function deleteValidation(array $validate = [], array $default = []): array
+    public function deleteValidation(array $validate = [], ?array $default = null): ValidatorInterface
     {
         $body = $this->request->post();
-        $validator = $this->validation->make($body, array_merge(
+        return $this->validation->make($body, array_merge(
             $validate,
             $default ?? [
                 'id' => 'required_without:where|array',
@@ -239,13 +194,6 @@ class CurdService implements CurdInterface
                 'where.*' => 'array|size:3'
             ]
         ));
-
-        return $validator->fails() ? [
-            'error' => 1,
-            'msg' => $validator->errors()
-        ] : [
-            'error' => 0
-        ];
     }
 
     /**

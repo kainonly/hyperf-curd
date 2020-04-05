@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Hyperf\Curd;
 
+use Hyperf\Contract\ValidatorInterface;
 use Hyperf\Curd\Factory\AddModel;
 use Hyperf\Curd\Factory\DeleteModel;
 use Hyperf\Curd\Factory\EditModel;
@@ -15,10 +16,10 @@ interface CurdInterface
     /**
      * 列表请求验证
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      */
-    public function originListsValidation(array $validate = [], array $default = []): array;
+    public function originListsValidation(array $validate = [], ?array $default = null): ValidatorInterface;
 
     /**
      * 列表请求模型
@@ -31,10 +32,10 @@ interface CurdInterface
     /**
      * 分页请求验证
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      */
-    public function listsValidation(array $validate = [], array $default = []): array;
+    public function listsValidation(array $validate = [], ?array $default = null): ValidatorInterface;
 
     /**
      * 分页请求模型
@@ -47,10 +48,10 @@ interface CurdInterface
     /**
      * 获取数据请求验证
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      */
-    public function getValidation(array $validate = [], array $default = []): array;
+    public function getValidation(array $validate = [], ?array $default = null): ValidatorInterface;
 
     /**
      * 获取数据请求模型
@@ -63,10 +64,10 @@ interface CurdInterface
     /**
      * 新增数据请求验证
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      */
-    public function addValidation(array $validate = [], array $default = []): array;
+    public function addValidation(array $validate = [], ?array $default = null): ValidatorInterface;
 
     /**
      * 新增数据请求模型
@@ -79,10 +80,10 @@ interface CurdInterface
     /**
      * 编辑数据请求验证
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      */
-    public function editValidation(array $validate = [], array $default = []): array;
+    public function editValidation(array $validate = [], ?array $default = null): ValidatorInterface;
 
     /**
      * 编辑数据请求模型
@@ -95,10 +96,10 @@ interface CurdInterface
     /**
      * 删除数据请求验证
      * @param array $validate
-     * @param array $default
-     * @return array
+     * @param array|null $default
+     * @return ValidatorInterface
      */
-    public function deleteValidation(array $validate = [], array $default = []): array;
+    public function deleteValidation(array $validate = [], ?array $default = null): ValidatorInterface;
 
     /**
      * 删除数据请求模型
