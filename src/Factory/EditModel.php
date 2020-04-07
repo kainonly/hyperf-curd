@@ -30,6 +30,17 @@ class EditModel
     }
 
     /**
+     * 自动生成时间戳
+     * @param bool $value
+     * @return $this
+     */
+    public function setAutoTimestamp(bool $value): self
+    {
+        $this->autoTimestamp = $value;
+        return $this;
+    }
+
+    /**
      * 设置数组条件
      * @param array $value
      * @return $this
