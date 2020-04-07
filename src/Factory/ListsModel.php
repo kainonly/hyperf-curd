@@ -45,11 +45,11 @@ class ListsModel
 
     /**
      * 设置排序
-     * @param $column
-     * @param $direction
+     * @param string $column
+     * @param string $direction
      * @return $this
      */
-    public function setOrder($column, $direction): self
+    public function setOrder(string $column, string $direction): self
     {
         $this->order = [$column, $direction];
         return $this;
