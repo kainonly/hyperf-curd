@@ -81,8 +81,7 @@ class OriginListsModel
             ->where($condition);
 
         if (!empty($this->order)) {
-            $query = $query
-                ->orderBy(...$this->order);
+            $query = $query->orderBy(...$this->order);
         }
 
         if (!empty($this->subQuery)) {
