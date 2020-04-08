@@ -87,20 +87,19 @@ class ListsModel
         $total = $totalQuery->count();
 
         $listsQuery = Db::table($this->name)
-            ->where($condition)
-            ->take($this->body['page']['limit'])
-            ->skip($this->body['page']['index'] - 1);
+            ->where($condition);
 
         if (!empty($this->order)) {
-            $listsQuery = $listsQuery
-                ->orderBy(...$this->order);
+            $listsQuery = $listsQuery->orderBy(...$this->order);
         }
 
-        if (!empty($this->lists_query)) {
-            $listsQuery = $listsQuery->where($this->lists_query);
+        if (!empty($this->subQuery)) {
+            $listsQuery = $listsQuery->where($this->subQuery);
         }
 
-        $lists = $listsQuery->get($this->field);
+        $lists = $listsQuery
+            ->forPage($this->body['page']['index'], $this->body['page']['limit'])
+            ->get($this->field);
 
         return [
             'error' => 0,
