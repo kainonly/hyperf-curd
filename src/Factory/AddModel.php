@@ -58,7 +58,7 @@ class AddModel
         }
 
         $result = null;
-        if (empty($this->afterEvent)) {
+        if (empty($this->after)) {
             $result = Db::table($this->name)->insert($this->body);
         } else {
             $result = Db::transaction(function () {
