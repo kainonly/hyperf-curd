@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Hyperf\Curd\Factory;
 
+use Hyperf\Curd\Common\CovertResult;
 use Hyperf\Database\Query\Builder;
-use stdClass;
 
 abstract class BaseModel
 {
@@ -48,22 +48,20 @@ abstract class BaseModel
     /**
      * 条件转换
      * @param array $conditions
-     * @return stdClass
+     * @return CovertResult
      */
-    protected function convertConditions(array $conditions): stdClass
+    protected function convertConditions(array $conditions): CovertResult
     {
         $additional = [];
-        $simple = array_filter($conditions, function ($v) use (&$additional) {
-            if (!in_array($v[1], $this->additionalOperators)) {
-                array_push($additional, $v);
-                return true;
+        $simple = [];
+        foreach ($conditions as $clauses) {
+            if (in_array($clauses[1], $this->additionalOperators, true)) {
+                $additional[] = $clauses;
+            } else {
+                $simple[] = $clauses;
             }
-            return false;
-        });
-        $result = new stdClass();
-        $result->simple = $simple;
-        $result->additional = $additional;
-        return $result;
+        }
+        return new CovertResult($simple, $additional);
     }
 
     /**
@@ -75,7 +73,7 @@ abstract class BaseModel
     protected function autoAdditionalClauses(Builder &$query, array $additional): Builder
     {
         foreach ($additional as $clauses) {
-            list($column, $operator, $value) = $clauses;
+            [$column, $operator, $value] = $clauses;
             switch ($operator) {
                 case 'in':
                     $query = $query->whereIn($column, $value);

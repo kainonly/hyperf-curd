@@ -105,12 +105,12 @@ class EditModel extends BaseModel
             $convert = $this->convertConditions($condition);
 
             $query = Db::table($this->name)
-                ->where($convert->simple);
+                ->where($convert->getSimple());
 
-            if (!empty($convert->additional)) {
+            if (!$convert->isEmptyAdditional()) {
                 $query = $this->autoAdditionalClauses(
                     $query,
-                    $convert->additional
+                    $convert->getAdditional()
                 );
             }
 
