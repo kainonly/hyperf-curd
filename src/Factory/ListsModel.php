@@ -6,20 +6,28 @@ namespace Hyperf\Curd\Factory;
 use Closure;
 use Hyperf\DbConnection\Db;
 
-class ListsModel
+class ListsModel extends BaseModel
 {
-    private string $name;
-    private array $body;
+    /**
+     * 条件数组
+     * @var array
+     */
     private array $condition = [];
+    /**
+     * 子查询闭包
+     * @var Closure|null
+     */
     private ?Closure $subQuery = null;
+    /**
+     * 排序
+     * @var array
+     */
     private array $order = [];
+    /**
+     * 限定字段
+     * @var array
+     */
     private array $field = ['*'];
-
-    public function __construct(string $name, array $body)
-    {
-        $this->name = $name;
-        $this->body = $body;
-    }
 
     /**
      * 设置数组条件
@@ -77,8 +85,17 @@ class ListsModel
             ...$this->body['where'] ?? []
         ];
 
+        $convert = $this->convertConditions($condition);
+
         $totalQuery = Db::table($this->name)
-            ->where($condition);
+            ->where($convert->simple);
+
+        if (!empty($convert->additional)) {
+            $totalQuery = $this->autoAdditionalClauses(
+                $totalQuery,
+                $convert->additional
+            );
+        }
 
         if (!empty($this->subQuery)) {
             $totalQuery = $totalQuery->where($this->subQuery);
@@ -87,7 +104,14 @@ class ListsModel
         $total = $totalQuery->count();
 
         $listsQuery = Db::table($this->name)
-            ->where($condition);
+            ->where($convert->simple);
+
+        if (!empty($convert->additional)) {
+            $listsQuery = $this->autoAdditionalClauses(
+                $listsQuery,
+                $convert->additional
+            );
+        }
 
         if (!empty($this->order)) {
             $listsQuery = $listsQuery->orderBy(...$this->order);

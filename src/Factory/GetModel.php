@@ -5,18 +5,18 @@ namespace Hyperf\Curd\Factory;
 
 use Hyperf\DbConnection\Db;
 
-class GetModel
+class GetModel extends BaseModel
 {
-    private string $name;
-    private array $body;
+    /**
+     * 条件数组
+     * @var array
+     */
     private array $condition = [];
+    /**
+     * 限定字段
+     * @var array
+     */
     private array $field = ['*'];
-
-    public function __construct(string $name, array $body)
-    {
-        $this->name = $name;
-        $this->body = $body;
-    }
 
     /**
      * 设置数组条件
@@ -51,9 +51,19 @@ class GetModel
             ...!empty($this->body['id']) ? [['id', '=', $this->body['id']]] : $this->body['where']
         ];
 
-        $data = DB::table($this->name)
-            ->where($condition)
-            ->first($this->field);
+        $convert = $this->convertConditions($condition);
+
+        $query = DB::table($this->name)
+            ->where($convert->simple);
+
+        if (!empty($convert->additional)) {
+            $query = $this->autoAdditionalClauses(
+                $query,
+                $convert->additional
+            );
+        }
+
+        $data = $query->first($this->field);
 
         return [
             'error' => 0,
