@@ -8,22 +8,26 @@ use Hyperf\Curd\Common\AddAfterParams;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Context;
 
-class AddModel
+class AddModel extends BaseModel
 {
-    private string $name;
-    private array $body;
+    /**
+     * 自动生成时间戳
+     * @var bool
+     */
     private bool $autoTimestamp = true;
+    /**
+     * 后置闭包
+     * @var Closure|null
+     */
     private ?Closure $after = null;
+    /**
+     * 错误返回
+     * @var array
+     */
     private array $error = [
         'error' => 1,
         'msg' => 'add failed'
     ];
-
-    public function __construct(string $name, array $body)
-    {
-        $this->name = $name;
-        $this->body = $body;
-    }
 
     /**
      * 自动生成时间戳
@@ -101,5 +105,4 @@ class AddModel
             'msg' => 'ok'
         ];
     }
-
 }

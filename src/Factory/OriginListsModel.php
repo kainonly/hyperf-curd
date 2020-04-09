@@ -6,20 +6,28 @@ namespace Hyperf\Curd\Factory;
 use Closure;
 use Hyperf\DbConnection\Db;
 
-class OriginListsModel
+class OriginListsModel extends BaseModel
 {
-    private string $name;
-    private array $body;
+    /**
+     * 条件数组
+     * @var array
+     */
     private array $condition = [];
+    /**
+     * 子查询
+     * @var Closure|null
+     */
     private ?Closure $subQuery = null;
+    /**
+     * 排序
+     * @var array
+     */
     private array $order = [];
+    /**
+     * 限定字段
+     * @var array
+     */
     private array $field = ['*'];
-
-    public function __construct(string $name, array $body)
-    {
-        $this->name = $name;
-        $this->body = $body;
-    }
 
     /**
      * 设置数组条件
@@ -77,8 +85,17 @@ class OriginListsModel
             ...$this->body['where'] ?? []
         ];
 
+        $convert = $this->convertConditions($condition);
+
         $query = DB::table($this->name)
-            ->where($condition);
+            ->where($convert->simple);
+
+        if (!empty($convert->additional)) {
+            $query = $this->autoAdditionalClauses(
+                $query,
+                $convert->additional
+            );
+        }
 
         if (!empty($this->order)) {
             $query = $query->orderBy(...$this->order);

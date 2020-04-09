@@ -8,23 +8,45 @@ use Hyperf\Curd\Common\EditAfterParams;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Context;
 
-class EditModel
+class EditModel extends BaseModel
 {
-    private string $name;
-    private array $body;
+    /**
+     * 条件数组
+     * @var array
+     */
     private array $condition = [];
+    /**
+     * 自动生成时间戳
+     * @var bool
+     */
     private bool $autoTimestamp = true;
+    /**
+     * 是否为状态修改
+     * @var bool|mixed
+     */
     private bool $switch = false;
+    /**
+     * 后置闭包
+     * @var Closure|null
+     */
     private ?Closure $after = null;
+    /**
+     * 返回错误
+     * @var array
+     */
     private array $error = [
         'error' => 1,
         'msg' => 'edit failed'
     ];
 
+    /**
+     * EditModel constructor.
+     * @param string $name
+     * @param array $body
+     */
     public function __construct(string $name, array $body)
     {
-        $this->name = $name;
-        $this->body = $body;
+        parent::__construct($name, $body);
         $this->switch = $body['switch'];
         unset($this->body['switch']);
     }
@@ -77,11 +99,22 @@ class EditModel
                 ...$this->condition,
                 ...!empty($this->body['id']) ? [['id', '=', $this->body['id']]] : $this->body['where']
             ];
+
             unset($this->body['where']);
 
-            Db::table($this->name)
-                ->where($condition)
-                ->update($this->body);
+            $convert = $this->convertConditions($condition);
+
+            $query = Db::table($this->name)
+                ->where($convert->simple);
+
+            if (!empty($convert->additional)) {
+                $query = $this->autoAdditionalClauses(
+                    $query,
+                    $convert->additional
+                );
+            }
+
+            $query->update($this->body);
 
             if (!empty($this->after)) {
                 $param = new EditAfterParams();

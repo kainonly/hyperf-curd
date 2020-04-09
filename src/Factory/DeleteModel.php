@@ -9,23 +9,31 @@ use Hyperf\Curd\Common\DeletePrepParams;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Context;
 
-class DeleteModel
+class DeleteModel extends BaseModel
 {
-    private string $name;
-    private array $body;
+    /**
+     * 条件数组
+     * @var array
+     */
     private array $condition = [];
+    /**
+     * 事务准备闭包
+     * @var Closure|null
+     */
     private ?Closure $prep = null;
+    /**
+     * 后置闭包
+     * @var Closure|null
+     */
     private ?Closure $after = null;
+    /**
+     * 返回错误
+     * @var array
+     */
     private array $error = [
         'error' => 1,
-        'msg' => 'add failed'
+        'msg' => 'delete failed'
     ];
-
-    public function __construct(string $name, array $body)
-    {
-        $this->name = $name;
-        $this->body = $body;
-    }
 
     /**
      * 设置数组条件
@@ -81,18 +89,26 @@ class DeleteModel
                 }
             }
 
-            $condition = $this->condition;
+            $convert = $this->convertConditions($this->condition);
+
             if (!empty($this->body['id'])) {
-                $result = Db::table($this->name)
+                $query = Db::table($this->name)
                     ->whereIn('id', $this->body['id'])
-                    ->where($condition)
-                    ->delete();
+                    ->where($convert->simple);
             } else {
-                $result = Db::table($this->name)
+                $query = Db::table($this->name)
                     ->where($this->body['where'])
-                    ->where($condition)
-                    ->delete();
+                    ->where($convert->simple);
             }
+
+            if (!empty($convert->additional)) {
+                $query = $this->autoAdditionalClauses(
+                    $query,
+                    $convert->additional
+                );
+            }
+
+            $result = $query->delete();
 
             if (!$result) {
                 return false;
