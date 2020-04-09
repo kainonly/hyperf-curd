@@ -88,12 +88,12 @@ class ListsModel extends BaseModel
         $convert = $this->convertConditions($condition);
 
         $totalQuery = Db::table($this->name)
-            ->where($convert->simple);
+            ->where($convert->getSimple());
 
-        if (!empty($convert->additional)) {
+        if (!$convert->isEmptyAdditional()) {
             $totalQuery = $this->autoAdditionalClauses(
                 $totalQuery,
-                $convert->additional
+                $convert->getAdditional()
             );
         }
 
@@ -104,12 +104,12 @@ class ListsModel extends BaseModel
         $total = $totalQuery->count();
 
         $listsQuery = Db::table($this->name)
-            ->where($convert->simple);
+            ->where($convert->getSimple());
 
-        if (!empty($convert->additional)) {
+        if (!$convert->isEmptyAdditional()) {
             $listsQuery = $this->autoAdditionalClauses(
                 $listsQuery,
-                $convert->additional
+                $convert->getAdditional()
             );
         }
 

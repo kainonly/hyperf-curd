@@ -94,17 +94,17 @@ class DeleteModel extends BaseModel
             if (!empty($this->body['id'])) {
                 $query = Db::table($this->name)
                     ->whereIn('id', $this->body['id'])
-                    ->where($convert->simple);
+                    ->where($convert->getSimple());
             } else {
                 $query = Db::table($this->name)
                     ->where($this->body['where'])
-                    ->where($convert->simple);
+                    ->where($convert->getSimple());
             }
 
-            if (!empty($convert->additional)) {
+            if (!$convert->isEmptyAdditional()) {
                 $query = $this->autoAdditionalClauses(
                     $query,
-                    $convert->additional
+                    $convert->getAdditional()
                 );
             }
 
