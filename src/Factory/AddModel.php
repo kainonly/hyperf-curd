@@ -81,18 +81,17 @@ class AddModel
                     return false;
                 }
 
-                if (!empty($this->after)) {
-                    $param = new AddAfterParams();
-                    $param->setId($id);
-                    $func = $this->after;
-                    if ($func($param)) {
-                        $this->error = Context::get('error', [
-                            'error' => 1,
-                            'msg' => 'after hook failed'
-                        ]);
-                        return false;
-                    }
+                $param = new AddAfterParams();
+                $param->setId($id);
+                $func = $this->after;
+                if (!$func($param)) {
+                    $this->error = Context::get('error', [
+                        'error' => 1,
+                        'msg' => 'after hook failed'
+                    ]);
+                    return false;
                 }
+
                 return true;
             });
         }
