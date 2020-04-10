@@ -126,6 +126,7 @@ class EditModel extends BaseModel
                         'error' => 1,
                         'msg' => 'after hook failed'
                     ]);
+                    Db::rollBack();
                     return false;
                 }
             }
