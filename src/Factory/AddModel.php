@@ -82,6 +82,7 @@ class AddModel extends BaseModel
                         'error' => 1,
                         'msg' => 'this [id] is empty'
                     ];
+                    Db::rollBack();
                     return false;
                 }
 
@@ -93,6 +94,7 @@ class AddModel extends BaseModel
                         'error' => 1,
                         'msg' => 'after hook failed'
                     ]);
+                    Db::rollBack();
                     return false;
                 }
 

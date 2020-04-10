@@ -85,6 +85,7 @@ class DeleteModel extends BaseModel
                         'error' => 1,
                         'msg' => 'prep hook failed'
                     ]);
+                    Db::rollBack();
                     return false;
                 }
             }
@@ -111,6 +112,7 @@ class DeleteModel extends BaseModel
             $result = $query->delete();
 
             if (!$result) {
+                Db::rollBack();
                 return false;
             }
 
@@ -123,6 +125,7 @@ class DeleteModel extends BaseModel
                         'error' => 1,
                         'msg' => 'after hook failed'
                     ]);
+                    Db::rollBack();
                     return false;
                 }
             }
