@@ -81,7 +81,7 @@ class DeleteModel extends BaseModel
                 $param->setBody($this->body);
                 $func = $this->prep;
                 if (!$func($param)) {
-                    $this->error = Context::get('error', [
+                    $this->error = (array)Context::get('error', [
                         'error' => 1,
                         'msg' => 'prep hook failed'
                     ]);
@@ -121,7 +121,7 @@ class DeleteModel extends BaseModel
                 $param->setId($this->body['id']);
                 $func = $this->after;
                 if (!$func($param)) {
-                    $this->error = Context::get('error', [
+                    $this->error = (array)Context::get('error', [
                         'error' => 1,
                         'msg' => 'after hook failed'
                     ]);
