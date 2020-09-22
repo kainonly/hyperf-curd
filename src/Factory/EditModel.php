@@ -122,7 +122,7 @@ class EditModel extends BaseModel
                 $param->setSwitch($this->switch);
                 $func = $this->after;
                 if (!$func($param)) {
-                    $this->error = Context::get('error', [
+                    $this->error = (array)Context::get('error', [
                         'error' => 1,
                         'msg' => 'after hook failed'
                     ]);

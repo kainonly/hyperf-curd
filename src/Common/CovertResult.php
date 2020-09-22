@@ -9,12 +9,12 @@ class CovertResult
      * 简易条件
      * @var array
      */
-    private array $simple = [];
+    private array $simple;
     /**
      * 附加条件
      * @var array
      */
-    private array $additional = [];
+    private array $additional;
 
     /**
      * CovertResult constructor.
