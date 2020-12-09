@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyperf\Curd\Factory;
+namespace Hyperf\Curd\Operator;
 
 use Closure;
 use Hyperf\Curd\Common\AddAfterParams;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Context;
 
-class AddModel extends BaseModel
+class AddModel extends CommonModel
 {
     /**
      * 自动生成时间戳

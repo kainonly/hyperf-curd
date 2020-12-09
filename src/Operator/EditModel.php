@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyperf\Curd\Factory;
+namespace Hyperf\Curd\Operator;
 
 use Closure;
 use Hyperf\Curd\Common\EditAfterParams;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Context;
 
-class EditModel extends BaseModel
+class EditModel extends CommonModel
 {
     /**
      * 条件数组

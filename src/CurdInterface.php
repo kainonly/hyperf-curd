@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Hyperf\Curd;
 
 use Hyperf\Contract\ValidatorInterface;
-use Hyperf\Curd\Factory\AddModel;
-use Hyperf\Curd\Factory\DeleteModel;
-use Hyperf\Curd\Factory\EditModel;
-use Hyperf\Curd\Factory\GetModel;
-use Hyperf\Curd\Factory\ListsModel;
-use Hyperf\Curd\Factory\OriginListsModel;
+use Hyperf\Curd\Operator\AddModel;
+use Hyperf\Curd\Operator\DeleteModel;
+use Hyperf\Curd\Operator\EditModel;
+use Hyperf\Curd\Operator\GetModel;
+use Hyperf\Curd\Operator\ListsModel;
+use Hyperf\Curd\Operator\OriginListsModel;
 
 interface CurdInterface
 {

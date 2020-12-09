@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyperf\Curd\Factory;
+namespace Hyperf\Curd\Operator;
 
 use Closure;
 use Hyperf\DbConnection\Db;
 
-class ListsModel extends BaseModel
+class OriginListsModel extends CommonModel
 {
     /**
      * 条件数组
@@ -14,7 +14,7 @@ class ListsModel extends BaseModel
      */
     private array $condition = [];
     /**
-     * 子查询闭包
+     * 子查询
      * @var Closure|null
      */
     private ?Closure $subQuery = null;
@@ -87,50 +87,29 @@ class ListsModel extends BaseModel
 
         $convert = $this->convertConditions($condition);
 
-        $totalQuery = Db::table($this->name)
+        $query = DB::table($this->name)
             ->where($convert->getSimple());
 
         if (!$convert->isEmptyAdditional()) {
-            $totalQuery = $this->autoAdditionalClauses(
-                $totalQuery,
-                $convert->getAdditional()
-            );
-        }
-
-        if (!empty($this->subQuery)) {
-            $totalQuery = $totalQuery->where($this->subQuery);
-        }
-
-        $total = $totalQuery->count();
-
-        $listsQuery = Db::table($this->name)
-            ->where($convert->getSimple());
-
-        if (!$convert->isEmptyAdditional()) {
-            $listsQuery = $this->autoAdditionalClauses(
-                $listsQuery,
+            $query = $this->autoAdditionalClauses(
+                $query,
                 $convert->getAdditional()
             );
         }
 
         if (!empty($this->order)) {
-            $listsQuery = $listsQuery->orderBy(...$this->order);
+            $query = $query->orderBy(...$this->order);
         }
 
         if (!empty($this->subQuery)) {
-            $listsQuery = $listsQuery->where($this->subQuery);
+            $query = $query->where($this->subQuery);
         }
 
-        $lists = $listsQuery
-            ->forPage($this->body['page']['index'], $this->body['page']['limit'])
-            ->get($this->field);
+        $lists = $query->get($this->field);
 
         return [
             'error' => 0,
-            'data' => [
-                'lists' => $lists,
-                'total' => $total
-            ]
+            'data' => $lists
         ];
     }
 }
