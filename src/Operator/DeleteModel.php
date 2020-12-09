@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyperf\Curd\Factory;
+namespace Hyperf\Curd\Operator;
 
 use Closure;
 use Hyperf\Curd\Common\DeleteAfterParams;
@@ -9,7 +9,7 @@ use Hyperf\Curd\Common\DeletePrepParams;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Context;
 
-class DeleteModel extends BaseModel
+class DeleteModel extends CommonModel
 {
     /**
      * 条件数组

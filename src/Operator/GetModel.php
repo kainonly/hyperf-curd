@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyperf\Curd\Factory;
+namespace Hyperf\Curd\Operator;
 
 use Hyperf\DbConnection\Db;
 
-class GetModel extends BaseModel
+class GetModel extends CommonModel
 {
     /**
      * 条件数组

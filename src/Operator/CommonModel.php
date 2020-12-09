@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyperf\Curd\Factory;
+namespace Hyperf\Curd\Operator;
 
 use Hyperf\Curd\Common\CovertResult;
 use Hyperf\Database\Query\Builder;
 
-abstract class BaseModel
+abstract class CommonModel
 {
     /**
      * 表名称
