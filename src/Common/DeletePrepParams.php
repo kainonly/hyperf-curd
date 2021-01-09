@@ -36,7 +36,6 @@ class DeletePrepParams
 
     /**
      * @param array $body
-     * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
      */
     public function setBody(array &$body): void
     {

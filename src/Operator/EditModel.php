@@ -24,7 +24,7 @@ class EditModel extends CommonModel
      * 是否为状态修改
      * @var bool|mixed
      */
-    private bool $switch = false;
+    private bool $switch;
     /**
      * 后置闭包
      * @var Closure|null
