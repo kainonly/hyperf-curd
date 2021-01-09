@@ -36,7 +36,7 @@ class CovertResult
     }
 
     /**
-     * @return array
+     * @return bool
      */
     public function isEmptyAdditional(): bool
     {
