@@ -1,6 +1,6 @@
 # Hyperf Curd
 
-辅助 Hyperf 快速集成 CURD API 的工具集，案例文档 [hyperf-api-case](https://hyperf.kainonly.com)
+辅助 Hyperf 快速集成 CURD API
 
 ![Packagist Version](https://img.shields.io/packagist/v/kain/hyperf-curd.svg?style=flat-square)
 ![Packagist](https://img.shields.io/packagist/dt/kain/hyperf-curd.svg?color=blue&style=flat-square)
