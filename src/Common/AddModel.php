@@ -27,7 +27,8 @@ trait AddModel
                 'msg' => 'An exception occurred in the before hook'
             ]);
         }
-        $model = $this->curd->model(static::$model, $body)->autoTimestamp(static::$autoTimestamp);
+        $model = $this->curd->model(static::$addModel ?? static::$model, $body)
+            ->autoTimestamp(static::$autoTimestamp);
         if (method_exists($this, 'addAfterHook')) {
             $model = $model->afterHook(function (stdClass $param) use (&$ctx) {
                 $ctx->id = $param->id;
