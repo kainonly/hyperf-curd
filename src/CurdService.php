@@ -3,15 +3,9 @@ declare(strict_types=1);
 
 namespace Hyperf\Curd;
 
-use Hyperf\Contract\ValidatorInterface;
-use Hyperf\Curd\Operator\AddModel;
-use Hyperf\Curd\Operator\DeleteModel;
-use Hyperf\Curd\Operator\EditModel;
-use Hyperf\Curd\Operator\GetModel;
-use Hyperf\Curd\Operator\ListsModel;
-use Hyperf\Curd\Operator\OriginListsModel;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
+use Hyperf\Validation\ValidationException;
 
 class CurdService implements CurdInterface
 {
@@ -23,189 +17,32 @@ class CurdService implements CurdInterface
      * @param RequestInterface $request
      * @param ValidatorFactoryInterface $validation
      */
-    public function __construct(RequestInterface $request, ValidatorFactoryInterface $validation)
+    public function __construct(
+        RequestInterface $request,
+        ValidatorFactoryInterface $validation
+    )
     {
         $this->request = $request;
         $this->validation = $validation;
     }
 
-    /**
-     * @param array $validate
-     * @param array|null $default
-     * @return ValidatorInterface
-     * @inheritDoc
-     */
-    public function originListsValidation(array $validate = [], ?array $default = null): ValidatorInterface
+    public function should(array $rule = [], ...$extend): array
     {
         $body = $this->request->post();
-        return $this->validation->make($body, array_merge(
-            $validate,
-            $default ?? [
-                'where' => 'sometimes|array',
-                'where.*' => 'array|size:3'
-            ]
-        ));
+        if (!empty($rule)) {
+            $validate = $this->validation->make($body, array_merge($rule, ...$extend));
+            if ($validate->fails()) {
+                throw new ValidationException($validate);
+            }
+        }
+        return $body;
     }
 
-    /**
-     * @param string $name
-     * @param array|null $body
-     * @return OriginListsModel
-     * @inheritDoc
-     */
-    public function originListsModel(string $name, ?array $body = null): OriginListsModel
+    public function model(string $name, array $body): CurdFactory
     {
-        return new OriginListsModel($name, $body ?? $this->request->post());
-    }
-
-    /**
-     * @param array $validate
-     * @param array|null $default
-     * @return ValidatorInterface
-     * @inheritDoc
-     */
-    public function listsValidation(array $validate = [], ?array $default = null): ValidatorInterface
-    {
-        $body = $this->request->post();
-        return $this->validation->make($body, array_merge(
-            $validate,
-            $default ?? [
-                'page' => 'required',
-                'page.limit' => 'required|integer|between:1,50',
-                'page.index' => 'required|integer|min:1',
-                'where' => 'sometimes|array',
-                'where.*' => 'array|size:3'
-            ]
-        ));
-    }
-
-    /**
-     * @param string $name
-     * @param array|null $body
-     * @return ListsModel
-     * @inheritDoc
-     */
-    public function listsModel(string $name, ?array $body = null): ListsModel
-    {
-        return new ListsModel($name, $body ?? $this->request->post());
-    }
-
-    /**
-     * @param array $validate
-     * @param array|null $default
-     * @return ValidatorInterface
-     * @inheritDoc
-     */
-    public function getValidation(array $validate = [], ?array $default = null): ValidatorInterface
-    {
-        $body = $this->request->post();
-        return $this->validation->make($body, array_merge(
-            $validate,
-            $default ?? [
-                'id' => 'required_without:where|integer',
-                'where' => 'required_without:id|array',
-                'where.*' => 'array|size:3'
-            ]
-        ));
-    }
-
-    /**
-     * @param string $name
-     * @param array|null $body
-     * @return GetModel
-     * @inheritDoc
-     */
-    public function getModel(string $name, ?array $body = null): GetModel
-    {
-        return new GetModel($name, $body ?? $this->request->post());
-    }
-
-    /**
-     * @param array $validate
-     * @param array|null $default
-     * @return ValidatorInterface
-     * @inheritDoc
-     */
-    public function addValidation(array $validate = [], ?array $default = null): ValidatorInterface
-    {
-        $body = $this->request->post();
-        return $this->validation->make($body, array_merge(
-            $validate,
-            $default ?? []
-        ));
-    }
-
-    /**
-     * @param string $name
-     * @param array|null $body
-     * @return AddModel
-     * @inheritDoc
-     */
-    public function addModel(string $name, ?array $body = null): AddModel
-    {
-        return new AddModel($name, $body ?? $this->request->post());
-    }
-
-    /**
-     * @param array $validate
-     * @param array|null $default
-     * @return ValidatorInterface
-     * @inheritDoc
-     */
-    public function editValidation(array $validate = [], ?array $default = null): ValidatorInterface
-    {
-        $body = $this->request->post();
-        return $this->validation->make($body, array_merge(
-                $validate,
-                $default ?? [
-                    'id' => 'required_without:where|integer',
-                    'switch' => 'required|bool',
-                    'where' => 'required_without:id|array',
-                    'where.*' => 'array|size:3'
-                ]
-            )
-        );
-    }
-
-    /**
-     * @param string $name
-     * @param array|null $body
-     * @return EditModel
-     * @inheritDoc
-     */
-    public function editModel(string $name, ?array $body = null): EditModel
-    {
-        return new EditModel($name, $body ?? $this->request->post());
-    }
-
-    /**
-     * @param array $validate
-     * @param ?array $default
-     * @return ValidatorInterface
-     * @inheritDoc
-     */
-    public function deleteValidation(array $validate = [], ?array $default = null): ValidatorInterface
-    {
-        $body = $this->request->post();
-        return $this->validation->make($body, array_merge(
-            $validate,
-            $default ?? [
-                'id' => 'required_without:where|array',
-                'id.*' => 'integer',
-                'where' => 'required_without:id|array',
-                'where.*' => 'array|size:3'
-            ]
-        ));
-    }
-
-    /**
-     * @param string $name
-     * @param array|null $body
-     * @return DeleteModel
-     * @inheritDoc
-     */
-    public function deleteModel(string $name, ?array $body = null): DeleteModel
-    {
-        return new DeleteModel($name, $body ?? $this->request->post());
+        $curd = new CurdFactory();
+        $curd->name = $name;
+        $curd->body = $body;
+        return $curd;
     }
 }
