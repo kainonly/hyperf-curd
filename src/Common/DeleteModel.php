@@ -29,7 +29,7 @@ trait DeleteModel
                 'msg' => 'An exception occurred in the before hook'
             ]);
         }
-        $model = $this->curd->model(static::$model, $body);
+        $model = $this->curd->model(static::$deleteModel ?? static::$model, $body);
         if (!empty(static::$deleteCondition)) {
             $model = $model->where(static::$deleteCondition);
         }

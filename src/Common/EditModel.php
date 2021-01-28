@@ -29,7 +29,8 @@ trait EditModel
                 'msg' => 'An exception occurred in the before hook'
             ]);
         }
-        $model = $this->curd->model(static::$model, $body)->autoTimestamp(static::$autoTimestamp);
+        $model = $this->curd->model(static::$editModel ?? static::$model, $body)
+            ->autoTimestamp(static::$autoTimestamp);
         if (!empty(static::$editCondition)) {
             $model = $model->where(static::$editCondition);
         }

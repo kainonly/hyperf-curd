@@ -84,16 +84,28 @@ abstract class CurdController
     protected static array $getField = [];
 
     /**
+     * 自动更新时间戳
+     * @var bool
+     */
+    protected static bool $autoTimestamp = true;
+
+    /**
+     * 新增模型名称
+     * @var string
+     */
+    protected static string $addModel;
+
+    /**
      * 新增验证
      * @var array
      */
     protected static array $addValidate = [];
 
     /**
-     * 自动更新时间戳
-     * @var bool
+     * 编辑模型名称
+     * @var string
      */
-    protected static bool $autoTimestamp = true;
+    protected static string $editModel;
 
     /**
      * 编辑验证
@@ -106,6 +118,12 @@ abstract class CurdController
      * @var array
      */
     protected static array $editCondition = [];
+
+    /**
+     * 删除模型名称
+     * @var string
+     */
+    protected static string $deleteModel;
 
     /**
      * 删除验证
