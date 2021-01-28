@@ -5,7 +5,7 @@ namespace Hyperf\Curd\Lifecycle;
 
 use stdClass;
 
-interface AddAfterHook
+interface EditBeforeHook
 {
-    public function addAfterHook(stdClass $ctx): bool;
+    public function editBeforeHook(stdClass $ctx): bool;
 }
