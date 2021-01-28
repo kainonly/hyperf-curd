@@ -12,6 +12,8 @@ use stdClass;
  * Trait EditModel
  * @package Hyperf\Curd\Common
  * @property CurdInterface $curd
+ * @method bool editBeforeHook(stdClass $ctx)
+ * @method bool editAfterHook(stdClass $ctx)
  */
 trait EditModel
 {
@@ -32,7 +34,7 @@ trait EditModel
             $model = $model->where(static::$editCondition);
         }
         if (method_exists($this, 'editAfterHook')) {
-            $model = $model->afterHook($this->editAfterHook($ctx));
+            $model = $model->afterHook(fn() => $this->editAfterHook($ctx));
         }
         return $model->edit();
     }

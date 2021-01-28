@@ -11,6 +11,8 @@ use stdClass;
  * Trait AddModel
  * @package Hyperf\Curd\Common
  * @property CurdInterface $curd
+ * @method bool addBeforeHook(stdClass $ctx)
+ * @method bool addAfterHook(stdClass $ctx)
  */
 trait AddModel
 {

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Hyperf\Curd\Common;
 
+use Closure;
 use Hyperf\Curd\CurdInterface;
 use Hyperf\Curd\Validation;
 
@@ -10,6 +11,8 @@ use Hyperf\Curd\Validation;
  * Trait GetModel
  * @package Hyperf\Curd\Common
  * @property CurdInterface $curd
+ * @method Closure getConditionQuery(array $body)
+ * @method array getCustomReturn(array $result)
  */
 trait GetModel
 {
