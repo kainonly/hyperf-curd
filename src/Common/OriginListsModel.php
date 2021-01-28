@@ -12,7 +12,7 @@ use Hyperf\Curd\Validation;
  * @package Hyperf\Curd\Common
  * @property CurdInterface $curd
  * @method Closure originListsConditionQuery(array $body)
- * @method array originListsCustomReturn(array $result)
+ * @method array originListsCustomReturn(array $body, array $result)
  */
 trait OriginListsModel
 {
@@ -34,7 +34,7 @@ trait OriginListsModel
         }
         $result = $model->originLists();
         if (method_exists($this, 'originListsCustomReturn')) {
-            return $this->originListsCustomReturn($result);
+            return $this->originListsCustomReturn($body, $result);
         }
         return $result;
     }

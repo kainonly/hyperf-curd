@@ -12,7 +12,7 @@ use Hyperf\Curd\Validation;
  * @package Hyperf\Curd\Common
  * @property CurdInterface $curd
  * @method Closure getConditionQuery(array $body)
- * @method array getCustomReturn(array $result)
+ * @method array getCustomReturn(array $body, array $result)
  */
 trait GetModel
 {
@@ -32,9 +32,9 @@ trait GetModel
         if (!empty(static::$getField)) {
             $model = $model->select(static::$getField);
         }
-        $result = $model->lists();
+        $result = $model->get();
         if (method_exists($this, 'getCustomReturn')) {
-            return $this->getCustomReturn($result);
+            return $this->getCustomReturn($body, $result);
         }
         return $result;
     }
