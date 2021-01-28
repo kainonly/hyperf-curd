@@ -17,7 +17,9 @@ trait AddModel
     public function add(): array
     {
         $body = $this->curd->should(static::$addValidate);
-        if (method_exists($this, 'addBeforeHook') && !$this->addBeforeHook($body)) {
+        $ctx = new stdClass();
+        $ctx->body = &$body;
+        if (method_exists($this, 'addBeforeHook') && !$this->addBeforeHook($ctx)) {
             return Context::get('error', [
                 'error' => 1,
                 'msg' => 'An exception occurred in the before hook'
@@ -25,7 +27,10 @@ trait AddModel
         }
         $model = $this->curd->model(static::$model, $body)->autoTimestamp(static::$autoTimestamp);
         if (method_exists($this, 'addAfterHook')) {
-            $model = $model->afterHook(fn(stdClass $param) => $this->addAfterHook($body, $param));
+            $model = $model->afterHook(function (stdClass $param) use (&$ctx) {
+                $ctx->id = $param->id;
+                return $this->addAfterHook($ctx);
+            });
         }
         return $model->add();
     }
