@@ -146,9 +146,7 @@ class CurdFactory
      * 排序
      * @var array
      */
-    private array $orders = [
-        'create_time' => 'desc'
-    ];
+    private array $orders = [];
 
     /**
      * 设置排序
