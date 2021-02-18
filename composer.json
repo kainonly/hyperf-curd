@@ -3,9 +3,9 @@
   "description": "辅助 Hyperf 快速集成 CURD API 的工具集",
   "require": {
     "php": ">=7.4",
-    "hyperf/framework": "~2.0.0",
-    "hyperf/database": "~2.0.0",
-    "hyperf/validation": "~2.0.0"
+    "hyperf/framework": "2.1.*",
+    "hyperf/database": "2.1.*",
+    "hyperf/validation": "2.1.*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master"
